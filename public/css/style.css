@@ -27,3 +27,20 @@ img {
 h2 {
     margin: 50px 0px 10px 30px;
 }
+
+.header {
+    width: 100%;
+}
+
+input {
+    padding: 15px;
+    font-size: 18px;
+}
+button {
+    margin-left: 15px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bolder;
+    background: tomato;
+    cursor: pointer;
+}
