@@ -10,7 +10,7 @@
     <h2>Latest Images</h2>
 </div>
     <div id="main">
-        <div class="board" v-for="image in images" :key="image.id">
+    <div class="board" v-for="image in images" :key="image.id">
             <img :src="image.url" alt="image">
             <p class="image-title">{{image.title}}</p>
         </div>
