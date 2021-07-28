@@ -64,6 +64,19 @@ app.get("/images", (req, res) => {
         });
 });
 
+app.get("/info-image/:id", (req, res) => {
+    const { id } = req.params;
+    console.log("i hit the /info-image");
+    db.getImageInfo(id)
+        .then((data) => {
+            console.log("response from db.getImageInfo", data.rows);
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("error in db.getImageInfo", err);
+        });
+});
+
 app.listen(8080, () => {
     console.log("listining...");
 });

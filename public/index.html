@@ -12,6 +12,12 @@
      <h1>My Imageboard</h1>
     
 <div id="main">
+      <image-modal-component
+          v-if="selectedImage"
+          :imageid="selectedImage"
+          @close="closeModal">
+        </image-modal-component> 
+
     <div class="header">
         <h2>Latest Images</h2>
 <div class="searchField">                   
@@ -27,12 +33,30 @@
           </div>
 
     <div class="board" v-for="image in images" :key="image.id">
-            <img :src="image.url" alt="image">
+            <img :src="image.url" alt="image" @click="openModal">
             <p class="image-title">{{image.title}}</p>
             <p class="image-description">{{image.description}}</p>
         </div>
        
     </div> 
+
+
+<script id="image-modal-template" type="text/x-template">
+    <h1>you should see me</h1>
+    <div class="modal-overlay">   
+
+         <p id="x" @click="closeModal">X</p>
+
+         <div class="modal_box">
+            <img :src="data.url" :alt="data.description">
+            <h3>{{data.title}}</h3>
+            <p>{{data.description}}</p>
+             <p class="author">Created_at by: {{data.username}} on: {{data.created_at}}</p>
+         </div>
+         
+     </div>
+</script>
+
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

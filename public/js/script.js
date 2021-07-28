@@ -1,5 +1,36 @@
 console.log("yaay 🌟sctipt is linked...");
 (function () {
+    Vue.component("image-modal-component", {
+        template: "#image-modal-template",
+        props: ["imageid"],
+        data: function () {
+            return {
+                data: [],
+            };
+        },
+        mounted: function () {
+            console.log("imageid: ", this.imageid);
+
+            axios
+                .get(`/info-image/${this.imageid}`)
+                .then((response) => {
+                    console.log("response: ", response);
+                    console.log("response.data: ", response.data);
+                    this.data = response.data;
+                })
+                .catch((err) => console.log("err in /info axios: ", err));
+        },
+        method: {
+            closeModal: function () {
+                console.log("closing the modal...");
+                this.$emit("close");
+                this.selectedImage = null;
+            },
+        },
+    });
+
+    //------------------------------------------------------------------------
+
     new Vue({
         el: "#main",
         data: {
@@ -8,6 +39,7 @@ console.log("yaay 🌟sctipt is linked...");
             description: "",
             username: "",
             file: null,
+            selectedImage: null,
         }, //data ends here
         mounted: function () {
             console.log("my vue instance has mounted!!!");
@@ -45,6 +77,12 @@ console.log("yaay 🌟sctipt is linked...");
             },
             handleFileSelection: function (e) {
                 this.file = e.target.files[0];
+            },
+            openModal: function (id) {
+                this.selectedImage = id;
+            },
+            closeModal: function () {
+                this.selectedImage = null;
             },
         },
     });

@@ -12,6 +12,9 @@ module.exports.addImage = (title, description, username, url) => {
 };
 
 module.exports.getImages = () => {
-    console.log("query for db.images...");
     return db.query(`SELECT * FROM images`);
+};
+module.exports.getImageInfo = (id) => {
+    console.log("query for db.getImageInfo...");
+    return db.query(`SELECT * FROM images WHERE id=$1`, [id]);
 };
