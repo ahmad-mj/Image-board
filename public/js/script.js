@@ -1,26 +1,50 @@
 console.log("yaay 🌟sctipt is linked...");
 (function () {
+    Vue.component("comments-component", {
+        template: "#comments-template",
+        data: function () {
+            return {
+                comments: [],
+                username: "",
+                comment: "",
+            };
+        },
+        props: ["image_id"],
+        mounted: function () {},
+
+        methods: {
+            addComment: function () {
+                console.log("adding comment!");
+                let obj = {
+                    comment: this.comment,
+                    username: this.username,
+                    created_at: this.created_at,
+                    commentId: this.image_id,
+                };
+            },
+        },
+    });
+
     Vue.component("image-modal-component", {
         template: "#image-modal-template",
-        props: ["imageid"],
         data: function () {
             return {
                 data: [],
             };
         },
+        props: ["imageid"],
         mounted: function () {
             console.log("imageid: ", this.imageid);
 
             axios
-                .get(`/info-image/${this.imageid}`)
+                .get(`/info/${this.imageid}`)
                 .then((response) => {
-                    console.log("response: ", response);
                     console.log("response.data: ", response.data);
                     this.data = response.data;
                 })
                 .catch((err) => console.log("err in /info axios: ", err));
         },
-        method: {
+        methods: {
             closeModal: function () {
                 console.log("closing the modal...");
                 this.$emit("close");
@@ -40,6 +64,7 @@ console.log("yaay 🌟sctipt is linked...");
             username: "",
             file: null,
             selectedImage: null,
+            button: true,
         }, //data ends here
         mounted: function () {
             console.log("my vue instance has mounted!!!");
@@ -78,11 +103,33 @@ console.log("yaay 🌟sctipt is linked...");
             handleFileSelection: function (e) {
                 this.file = e.target.files[0];
             },
-            openModal: function (id) {
-                this.selectedImage = id;
+            openModal: function (img) {
+                this.selectedImage = img;
             },
             closeModal: function () {
                 this.selectedImage = null;
+            },
+
+            loadMoreImages: function () {
+                var self = this;
+                let lastImg = this.images[this.images.length - 1].id;
+                axios
+                    .get("/load-more/" + lastImg)
+                    .then(function (response) {
+                        // console.log("response from axios load-more", response);
+                        for (var i = 0; i < response.data.length; i++) {
+                            // console.log("response.data[i]", response.data[i]);
+                            //response.data[i].push(self.images);
+                            self.images.push(response.data[i]);
+                        }
+                        if (!response.data[1]) {
+                            this.button = false;
+                        }
+                    })
+                    .catch(function (err) {
+                        console.log("error in loadMoreImages", err);
+                    });
+                console.log("loadMoreImages function have been invoked😃");
             },
         },
     });

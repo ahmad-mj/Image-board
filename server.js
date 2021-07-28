@@ -28,19 +28,12 @@ app.use(express.json());
 app.use(express.static("./public"));
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("inside upload");
-    console.log("req.body: ", req.body);
-    console.log("req.file: ", req.file);
     if (req.file) {
-        console.log("inside my if statement");
-
         const { title, description, username } = req.body;
         const url = `https://s3.amazonaws.com/spicedling/${req.file.filename}`;
 
         db.addImage(title, description, username, url)
             .then((data) => {
-                // console.log("my data:\t", data.rows);
-                // console.log("rows[0]:\t", data.rows[0]);
                 res.json(data.rows[0]);
             })
             .catch((err) => {
@@ -56,7 +49,6 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/images", (req, res) => {
     db.getImages()
         .then((data) => {
-            // console.log("response from db getData: ", data);
             res.json(data.rows);
         })
         .catch((err) => {
@@ -64,19 +56,32 @@ app.get("/images", (req, res) => {
         });
 });
 
-app.get("/info-image/:id", (req, res) => {
+app.get("/info/:id", (req, res) => {
     const { id } = req.params;
-    console.log("i hit the /info-image");
+    console.log("id from info route: ", id);
+    console.log("i hit the /info");
     db.getImageInfo(id)
         .then((data) => {
-            console.log("response from db.getImageInfo", data.rows);
-            res.json(data.rows);
+            res.json(data.rows[0]);
         })
         .catch((err) => {
             console.log("error in db.getImageInfo", err);
         });
 });
 
+app.get("/load-more/:id", (req, res) => {
+    //     console.log("i hit the /load-more");
+
+    const { id } = req.params;
+    db.loadMoreImages(id)
+        .then((data) => {
+            console.log("my response array from loadMoreImages", data.rows);
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("error in db.loadMoreImages", err);
+        });
+});
 app.listen(8080, () => {
     console.log("listining...");
 });

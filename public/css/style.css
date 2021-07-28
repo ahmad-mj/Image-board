@@ -44,3 +44,14 @@ button {
     background: tomato;
     cursor: pointer;
 }
+.modal-overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    bottom: 0;
+    background-color: rgba(36, 36, 36, 0.74);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
