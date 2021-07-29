@@ -29,13 +29,13 @@ console.log("yaay 🌟sctipt is linked...");
                 let commentInput = {
                     comment: this.comment,
                     username: this.username,
-                    imageID: this.id,
+                    image_id: this.id,
                     created_at: this.created_at,
                 };
                 axios
                     .post("/comment", commentInput)
                     .then(function (response) {
-                        // console.log("response from post send comment", response);
+                        // console.log("response from postComment", response);
                         self.comments.unshift(response.data);
                     })
                     .catch(function (err) {
@@ -135,14 +135,14 @@ console.log("yaay 🌟sctipt is linked...");
 
             loadMoreImages: function () {
                 var self = this;
-                let lowestId = this.images[this.images.length - 1].id;
+                var lowestId = this.images[this.images.length - 1].id;
                 axios
                     .get("/load-more/" + lowestId)
                     .then(function (response) {
                         // console.log("response from axios load-more", response);
                         for (var i = 0; i < response.data.length; i++) {
-                            // console.log("response.data[i]", response.data[i]);
-                            //response.data[i].push(self.images);
+                            console.log("response.data[i]", response.data[i]);
+
                             self.images.push(response.data[i]);
                         }
                         if (!response.data[1]) {

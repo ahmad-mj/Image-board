@@ -9,35 +9,45 @@
 
 
 
-     <h1>My Imageboard</h1>
     
-<div id="main">
-    
-
-    <div class="header">
-        <h2>Latest Images</h2>
+    <div id="main">
+        
+        
+        <div class="header">
+        <h1>My Imageboard</h1>
+       </div>
 <div class="searchField">                   
                          <input  v-model="title" type="text" name="title" placeholder="title">
                          <input  v-model="description" type="text" name="description" placeholder="description">
                          <input  v-model="username" type="text" name="username" placeholder="username">
                          
-                         <div>
+                       
                          <input  type="file" name="file" accept="image/*" @change="handleFileSelection">
-                        </div>         
-                          <button  @click="uploadImage">Upload</button>    
+                       
+                        
+                          <button class="upload_btn"  @click="uploadImage">Upload</button>    
           </div>
-          </div>
+           
           <image-modal-component
           v-if="selectedImage"
           :imageid="selectedImage"
           @close="closeModal">
         </image-modal-component> 
 
-        <div class="board" v-for="image in images" :key="image.id">
-            <img :src="image.url" alt="image" @click="openModal(image.id)">
-            <p class="image-title">{{image.title}}</p>
-            <p class="image-description">{{image.description}}</p>
+<section class="grid">
+    <div class="image_div" v-for="image in images" :key="image.id">
+    <div class="board">
+            <img class="image" :src="image.url" alt="image" @click="openModal(image.id)">
+    <div class="text">
+                <p class="image-title">{{image.title}} <br><br> {{image.description}}</p>
+               
+    </div>
+            
         </div>
+    </div>
+</section>
+
+       
         
       <div id="moreButton">
                 <button v-if="button" @click="loadMoreImages">more</button>
@@ -50,19 +60,19 @@
 <script id="image-modal-template" type="text/x-template">
     
     <div class="modal-overlay">   
-      <div>
+      <div class="modal-info">
          <p id="x" @click="closeModal">X</p>
 
          <div class="modal_box">
              <img :src="data.url" :alt="data.description">
              <h3>{{data.title}}</h3>
              <p>{{data.description}}</p>
-             <p class="author">Created by: {{data.username}} on: {{data.created_at}}</p>
-         </div>
-            <comments-component
-       :id="id"       
-    ></comments-component>
-      
+             <p class="author">Created by: {{data.username}} on:  {{data.created_at}}</p>
+             
+             <comments-component
+             :id="id"       
+             ></comments-component>
+            </div>
          </div>
      </div>
 </script>
@@ -70,9 +80,9 @@
     <div class="comments-container">
     
         <div class="submit-container">
-            <input v-model="username" type="text" name="username" >
-            <input v-model="comment" type="text" name="comment" >
-            <button @click="addComment">post</button>
+            <input class="comment_input" v-model="username" type="text" name="username" placeholder="username">
+            <input class="comment_input" v-model="comment" type="text" name="comment" placeholder="comment">
+            <button  class="comment_btn" @click="addComment">post</button>
         </div>
 
         <div v-for="comment in comments">
