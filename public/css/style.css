@@ -3,14 +3,10 @@
         "Lucida Sans", Arial, sans-serif;
     box-sizing: border-box;
 }
-
-h2 {
-    margin: 50px 0px 10px 30px;
+body {
+    background: linear-gradient(90deg, #000, #343434);
 }
 
-/* .header {
-    width: 100%;
-} */
 .header {
     background: linear-gradient(to right, #fcb045, #fd1d1d, #833ab4);
     background-size: 100%;
@@ -86,10 +82,9 @@ button {
 }
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
 
-    grid-auto-columns: 1fr;
     gap: 10px;
 }
 .image_div {
@@ -98,7 +93,7 @@ button {
 .image {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 70vh;
     border-radius: 5px;
     object-fit: cover;
     cursor: pointer;
@@ -129,12 +124,21 @@ button {
 .modal_box h3,
 p {
     margin-left: 5px;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+.author {
+    color: firebrick;
+    text-shadow: 0px 0px grey;
 }
 .modal_box {
     background: linear-gradient(45deg, black, transparent);
     color: aliceblue;
     border-radius: 5px;
+    max-height: 100vh;
+    overflow: auto;
 }
+
 .comment_input {
     border: none;
     border-bottom: 1px solid whitesmoke;
@@ -152,4 +156,33 @@ p {
 .comment_btn:hover {
     color: blue;
     border-bottom: 3px solid blue;
+}
+.comment-input-container {
+    padding: 15px;
+}
+
+.comment_box {
+    background: linear-gradient(45deg, gray, transparent);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5px;
+
+    position: relative;
+}
+
+.comment_box span {
+    color: #000;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.comment_box p {
+    margin-left: 10px;
+}
+time {
+    font-size: 10px;
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
 }

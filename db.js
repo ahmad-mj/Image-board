@@ -4,15 +4,17 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/imageboard"
 );
 
-module.exports.addImage = (title, description, username, url) => {
+module.exports.addImage = (url, username, title, description) => {
     return db.query(
-        `INSERT INTO images (title, description, username, url) VALUES ($1, $2, $3, $4) RETURNING title, description, username, url`,
-        [title, description, username, url]
+        `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4)
+         RETURNING id, url, username, title, description`,
+        [url, username, title, description]
     );
 };
 
 module.exports.getImages = () => {
-    return db.query(`SELECT * FROM images`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC
+    LIMIT 6`);
 };
 module.exports.getImageInfo = (id) => {
     console.log("query for db.getImageInfo...");
@@ -28,7 +30,7 @@ module.exports.loadMoreImages = (id) => {
             ) AS "lowestId" FROM images
             WHERE id < $1
             ORDER BY id DESC
-            LIMIT 10;`,
+            LIMIT 3;`,
         [id]
     );
 };
@@ -37,9 +39,9 @@ module.exports.getComments = (id) => {
     return db.query(`SELECT * FROM comments WHERE image_id=$1 `, [id]);
 };
 
-module.exports.postComment = (username, comment, image_id) => {
+module.exports.postComment = (image_id, username, comment) => {
     return db.query(
-        `INSERT INTO comments ( username, comment, image_id) VALUES ($1, $2, $3) RETURNING *`,
-        [username, comment, image_id]
+        `INSERT INTO comments ( image_id, username, comment) VALUES ($1, $2, $3) RETURNING *`,
+        [image_id, username, comment]
     );
 };

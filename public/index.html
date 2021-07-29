@@ -17,11 +17,10 @@
         <h1>My Imageboard</h1>
        </div>
 <div class="searchField">                   
-                         <input  v-model="title" type="text" name="title" placeholder="title">
-                         <input  v-model="description" type="text" name="description" placeholder="description">
-                         <input  v-model="username" type="text" name="username" placeholder="username">
+                         <input  v-model="title" type="text" name="title" placeholder="Title">
+                         <input  v-model="username" type="text" name="username" placeholder="Enter your name">
+                         <input  v-model="description" type="text" name="description" placeholder="Write a description">
                          
-                       
                          <input  type="file" name="file" accept="image/*" @change="handleFileSelection">
                        
                         
@@ -35,14 +34,17 @@
         </image-modal-component> 
 
 <section class="grid">
-    <div class="image_div" v-for="image in images" :key="image.id">
-    <div class="board">
-            <img class="image" :src="image.url" alt="image" @click="openModal(image.id)">
+     <div class="image_div" v-for="image in images" :key="image.id">
+         <div class="board">
+    <a  :href="'#' + image.id">
+            <img class="image" :id="image.id":src="image.url" alt="picture" >
     <div class="text">
-                <p class="image-title">{{image.title}} <br><br> {{image.description}}</p>
+                <p class="image-title">{{image.title}}
+                    {{image.description}}</p>
                
     </div>
             
+        </a>
         </div>
     </div>
 </section>
@@ -50,7 +52,9 @@
        
         
       <div id="moreButton">
-                <button v-if="button" @click="loadMoreImages">more</button>
+                <button style="
+    padding: 10px;
+" v-if="button" @click="loadMoreImages">more</button>
             </div>
           
        
@@ -65,30 +69,36 @@
 
          <div class="modal_box">
              <img :src="data.url" :alt="data.description">
-             <h3>{{data.title}}</h3>
+             <p>{{data.title}}</p>
              <p>{{data.description}}</p>
-             <p class="author">Created by: {{data.username}} on:  {{data.created_at}}</p>
-             
+             <p class="author">Created by: {{data.username}} </p>
+             <span class="author" style="
+    margin: 0 0 0 10px;
+    font-size: small;
+">on:  {{data.created_at}}</span>
+
              <comments-component
-             :id="id"       
+             :id="imageid"       
              ></comments-component>
             </div>
          </div>
      </div>
 </script>
-<script id="comments-template" type="text/x-template">
+<script  id="comments-template" type="text/x-template">
     <div class="comments-container">
     
-        <div class="submit-container">
-            <input class="comment_input" v-model="username" type="text" name="username" placeholder="username">
+        <div class="comment-input-container">
+            <input class="comment_input" v-model="username" type="text" name="username" placeholder="your name">
             <input class="comment_input" v-model="comment" type="text" name="comment" placeholder="comment">
             <button  class="comment_btn" @click="addComment">post</button>
         </div>
 
-        <div v-for="comment in comments">
-            <div>
-                <p>{{comment.username}}, {{comment.text}}</p>
-                <p>{{comment.created_at}}</p>
+        <div class="comment-section" v-for="comment in comments">
+            <div class="comment_box">
+                <span>{{comment.username}}:</span>
+               
+                <p> {{comment.comment}}</p>
+                <time>at: {{comment.created_at}}</time>
             </div>
         </div>
 

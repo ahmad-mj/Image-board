@@ -29,10 +29,11 @@ app.use(express.static("./public"));
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     if (req.file) {
-        const { title, description, username } = req.body;
+        const { username, title, description } = req.body;
+        console.log("description from /upload: ", description);
         const url = `https://s3.amazonaws.com/spicedling/${req.file.filename}`;
 
-        db.addImage(title, description, username, url)
+        db.addImage(url, username, title, description)
             .then((data) => {
                 res.json(data.rows[0]);
             })
@@ -96,6 +97,8 @@ app.get("/comments/:id", (req, res) => {
 
 app.post("/comment", (req, res) => {
     const { imageId, username, comment } = req.body;
+    console.log("image id in post:", imageId);
+    console.log("req.body in post comment: ", req.body);
     db.postComment(imageId, username, comment)
         .then((data) => {
             console.log("response from comment post", data.rows);
