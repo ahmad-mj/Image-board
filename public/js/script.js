@@ -10,17 +10,40 @@ console.log("yaay 🌟sctipt is linked...");
             };
         },
         props: ["image_id"],
-        mounted: function () {},
+        mounted: function () {
+            var self = this;
+            axios
+                .get("/comments/" + this.id)
+                .then(function (response) {
+                    self.comments = response.data;
+                })
+                .catch(function (err) {
+                    console.log("error in /comments axios", err);
+                });
+        },
 
         methods: {
             addComment: function () {
+                var self = this;
                 console.log("adding comment!");
-                let obj = {
+                let commentInput = {
                     comment: this.comment,
                     username: this.username,
+                    imageID: this.id,
                     created_at: this.created_at,
-                    commentId: this.image_id,
                 };
+                axios
+                    .post("/comment", commentInput)
+                    .then(function (response) {
+                        // console.log("response from post send comment", response);
+                        self.comments.unshift(response.data);
+                    })
+                    .catch(function (err) {
+                        console.log(
+                            "error from post request submit comment",
+                            err
+                        );
+                    });
             },
         },
     });
@@ -112,9 +135,9 @@ console.log("yaay 🌟sctipt is linked...");
 
             loadMoreImages: function () {
                 var self = this;
-                let lastImg = this.images[this.images.length - 1].id;
+                let lowestId = this.images[this.images.length - 1].id;
                 axios
-                    .get("/load-more/" + lastImg)
+                    .get("/load-more/" + lowestId)
                     .then(function (response) {
                         // console.log("response from axios load-more", response);
                         for (var i = 0; i < response.data.length; i++) {

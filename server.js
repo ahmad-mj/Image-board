@@ -82,6 +82,27 @@ app.get("/load-more/:id", (req, res) => {
             console.log("error in db.loadMoreImages", err);
         });
 });
+app.get("/comments/:id", (req, res) => {
+    const { id } = req.params;
+    // console.log("id", req.params);
+    db.getComments(id)
+        .then((data) => {
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            console.log("error in db.getComments: ", err);
+        });
+});
+
+app.post("/comment", (req, res) => {
+    const { imageId, username, comment } = req.body;
+    db.postComment(imageId, username, comment)
+        .then((data) => {
+            console.log("response from comment post", data.rows);
+            res.json(data.rows[0]);
+        })
+        .catch((err) => console.log("error in db.postComment", err));
+});
 app.listen(8080, () => {
     console.log("listining...");
 });

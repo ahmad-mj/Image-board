@@ -34,12 +34,12 @@ module.exports.loadMoreImages = (id) => {
 };
 
 module.exports.getComments = (id) => {
-    return db.query(`SELECT * FROM comments WHERE image_id=$1`, [id]);
+    return db.query(`SELECT * FROM comments WHERE image_id=$1 `, [id]);
 };
 
-module.exports.postComment = (text, username, image_id) => {
+module.exports.postComment = (username, comment, image_id) => {
     return db.query(
-        `INSERT INTO comments (text, username, image_id) VALUES ($1, $2, $3) RETURNING *`,
-        [text, username, image_id]
+        `INSERT INTO comments ( username, comment, image_id) VALUES ($1, $2, $3) RETURNING *`,
+        [username, comment, image_id]
     );
 };
