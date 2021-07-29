@@ -115,7 +115,7 @@ button {
 
 .modal_box img {
     width: 500px;
-    height: 350px;
+    height: 450px;
     object-fit: cover;
     border: dotted black 3px;
 
@@ -130,6 +130,12 @@ p {
 .author {
     color: firebrick;
     text-shadow: 0px 0px grey;
+}
+span {
+    color: firebrick;
+    text-shadow: 0px 0px grey;
+    font-size: 12px;
+    margin-left: 10px;
 }
 .modal_box {
     background: linear-gradient(45deg, black, transparent);
@@ -185,4 +191,48 @@ time {
     position: absolute;
     bottom: 2px;
     right: 5px;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    button {
+        width: 100px;
+        margin-left: 25px;
+    }
+    .searchField {
+        flex-direction: column;
+    }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+    .grid {
+        display: flex;
+        flex-direction: column;
+    }
+    button {
+        width: 200px;
+        margin-left: 25px;
+        font-size: 2.5em;
+    }
+    .searchField {
+        flex-direction: column;
+        margin: 10px;
+    }
+    input {
+        font-size: 2.5em;
+    }
+    p,
+    .comment_box span,
+    h3 {
+        font-size: 2.5em;
+    }
+    time {
+        display: none;
+    }
+    .modal_box img {
+        width: 100%;
+        height: 700px;
+    }
 }
