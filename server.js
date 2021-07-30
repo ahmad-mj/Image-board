@@ -30,7 +30,7 @@ app.use(express.static("./public"));
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     if (req.file) {
         const { username, title, description } = req.body;
-        console.log("description from /upload: ", description);
+        // console.log("description from /upload: ", description);
         const url = `https://s3.amazonaws.com/spicedling/${req.file.filename}`;
 
         db.addImage(url, username, title, description)
@@ -59,12 +59,15 @@ app.get("/images", (req, res) => {
 
 app.get("/info/:id", (req, res) => {
     const { id } = req.params;
-    console.log("id from info route: ", id);
-    console.log("i hit the /info");
+    // console.log("id from info route: ", id);
+    // console.log("i hit the /info");
+
     db.getImageInfo(id)
         .then((data) => {
+            // console.log("data from getimageinfo:", data);
             res.json(data.rows[0]);
         })
+
         .catch((err) => {
             console.log("error in db.getImageInfo", err);
         });
@@ -76,7 +79,7 @@ app.get("/load-more/:id", (req, res) => {
     const { id } = req.params;
     db.loadMoreImages(id)
         .then((data) => {
-            console.log("my response array from loadMoreImages", data.rows);
+            // console.log("my response array from loadMoreImages", data.rows);
             res.json(data.rows);
         })
         .catch((err) => {
@@ -97,15 +100,15 @@ app.get("/comments/:id", (req, res) => {
 
 app.post("/comment", (req, res) => {
     const { imageId, username, comment } = req.body;
-    console.log("image id in post:", imageId);
-    console.log("req.body in post comment: ", req.body);
+    // console.log("image id in post:", imageId);
+    // console.log("req.body in post comment: ", req.body);
     db.postComment(imageId, username, comment)
         .then((data) => {
-            console.log("response from comment post", data.rows);
+            // console.log("response from comment post", data.rows);
             res.json(data.rows[0]);
         })
         .catch((err) => console.log("error in db.postComment", err));
 });
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("listining...");
 });

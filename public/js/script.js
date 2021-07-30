@@ -1,4 +1,4 @@
-console.log("yaay 🌟sctipt is linked...");
+// console.log("yaay 🌟sctipt is linked...");
 (function () {
     //------------------------------------------comments-component------------------------------------------------------
 
@@ -41,14 +41,14 @@ console.log("yaay 🌟sctipt is linked...");
         methods: {
             addComment: function () {
                 var self = this;
-                console.log("this   : ", this);
-                console.log("adding comment!");
+                // console.log("this   : ", this);
+                // console.log("adding comment!");
                 let commentInput = {
                     comment: this.comment,
                     username: this.username,
                     imageId: this.id,
                 };
-                console.log("commentInput: ", commentInput);
+                // console.log("commentInput: ", commentInput);
                 axios
                     .post("/comment", commentInput)
                     .then(function (response) {
@@ -75,21 +75,21 @@ console.log("yaay 🌟sctipt is linked...");
         },
         props: ["imageid"],
         mounted: function () {
-            console.log("imageid: ", this.imageid);
+            // console.log("imageid: ", this.imageid);
 
             axios
                 .get(`/info/${this.imageid}`)
                 .then((response) => {
-                    console.log("response.data: ", response.data);
-                    console.log("description: ", response.data.description);
-                    console.log("title: ", response.data.title);
+                    // console.log("response.data: ", response.data);
+                    // console.log("description: ", response.data.description);
+                    // console.log("title: ", response.data.title);
                     this.data = response.data;
                 })
                 .catch((err) => console.log("err in /info axios: ", err));
         },
         watch: {
             imageid: function () {
-                console.log("imageid: ", this.imageid);
+                // console.log("imageid: ", this.imageid);
 
                 axios
                     .get(`/info/${this.imageid}`)
@@ -111,11 +111,10 @@ console.log("yaay 🌟sctipt is linked...");
         },
         methods: {
             closeModal: function () {
-                console.log("closing the modal...");
+                // console.log("closing the modal...");
                 history.pushState({}, "", "/");
                 this.$emit("close");
                 this.selectedImage = null;
-                // location.hash = "";
             },
         },
     });
@@ -137,15 +136,15 @@ console.log("yaay 🌟sctipt is linked...");
             // console.log("my vue instance has mounted!!!");
             // console.log("this OUTSIDE OF AxIOS: ", this);
             window.addEventListener("hashchange", () => {
-                console.log("the event hashchange is working");
-                console.log("location.hash: ", location.hash);
+                // console.log("the event hashchange is working");
+                // console.log("location.hash: ", location.hash);
                 this.selectedImage = location.hash.slice(1);
             }),
                 axios
                     .get("/images")
                     .then((response) => {
                         // console.log("response from /images: ", response);
-                        console.log("this INSIDE OF AxIOS: ", this);
+                        // console.log("this INSIDE OF AxIOS: ", this);
                         this.images = response.data;
                     })
                     .catch((err) => {
@@ -183,13 +182,13 @@ console.log("yaay 🌟sctipt is linked...");
             loadMoreImages: function () {
                 var self = this;
                 var lowestId = this.images[this.images.length - 1].id;
-                console.log("my lowestId before axios:", lowestId);
+                // console.log("my lowestId before axios:", lowestId);
                 axios
                     .get("/load-more/" + lowestId)
                     .then(function (response) {
                         // console.log("response from axios load-more", response);
                         for (var i = 0; i < response.data.length; i++) {
-                            console.log("response.data[i]", response.data[i]);
+                            // console.log("response.data[i]", response.data[i]);
 
                             self.images.push(response.data[i]);
                         }
@@ -200,7 +199,7 @@ console.log("yaay 🌟sctipt is linked...");
                     .catch(function (err) {
                         console.log("error in loadMoreImages", err);
                     });
-                console.log("loadMoreImages function have been invoked😃");
+                // console.log("loadMoreImages function have been invoked😃");
             },
         },
     });
