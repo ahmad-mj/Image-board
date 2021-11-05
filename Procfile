@@ -1,1 +1,2 @@
-web: node src/<you-app-name>.js
+
+worker: node server.js
